@@ -1,3 +1,9 @@
+import numpy as np
+from json import JSONEncoder
+
+from db.db_context import session_factory
+from modules.image_palette import ImagePalette
+
 DATA_PALETTES = (
     '85837c-d2d1d0-9b7360-e4e3e2-b5ab98',
     '91928f-204034-a3a7a5-799b7c-3b6b58',
@@ -38,18 +44,49 @@ DATA_PALETTES = (
 class DataManager:
 
     def __init__(self):
-        self._images = dict()
+        self._images = list()
+        with session_factory() as session:
+            image_palettes = session.query(ImagePalette).all()
+            for o in image_palettes:
+                self._images.append(o.__dict__)
+
+    def __get_data(self):
+        tmp = dict()
         for idx, val in enumerate(DATA_PALETTES):
-            self._images.update({idx: val})
+            tmp.update({idx: val})
+        return tmp
+
+    def seed(self):
+        data = self.__get_data()
+        with session_factory() as session:
+            for k, v in data.items():
+                palette = ImagePalette(name=str(k), url=str(k), palette=v)
+                session.add(palette)
+            session.commit()
 
     def get_data(self):
-        return [v for k, v in self._images.items()]
+        return [v['palette'] for v in self._images]
+
+    def get_palettes(self, indices: list[int]) -> [list[dict], None]:
+        if len(indices) == 0:
+            return None
+
+        tmp = np.array(self._images)
+        result = list[dict]()
+        for o in list(tmp[indices]):
+            result.append({
+                'file_name': o['name'],
+                'url': o['url'],
+                'palette': o['palette']
+            })
+
+        return result
 
 
 def main():
     manager = DataManager()
-    data = manager.get_data()
-    print("{}".format(data))
+    # manager.seed()
+    manager.get_data()
 
 
 if __name__ == '__main__':

@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, request
 
 from data_manager import DataManager
@@ -14,9 +16,10 @@ default_num_neighbors = 10
 def request_similar_vision(palette: str):
     num_neighbors = request.args.get('num', default=default_num_neighbors, type=int)
     indices, distances = palette_index.GetNearestNeighbors(palette, num_neighbors)
+    image_infos = data_manager.get_palettes(indices)
     return {
-        "indices": indices,
-        "distances": distances
+        'images': image_infos,
+        'distances': distances
     }
 
 
