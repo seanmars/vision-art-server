@@ -5,12 +5,34 @@ const getPalette = async (palette, count) => {
     return fetch(url)
 }
 
+const addColorElement = (palette, targetElement) => {
+    const palettes = palette.split('-');
+    let divPalettes = document.createElement('div');
+    divPalettes.className = 'row';
+    palettes.forEach(color => {
+        let block = document.createElement('div');
+        block.className = 'box';
+        block.style.backgroundColor = `#${color}`;
+
+        divPalettes.appendChild(block);
+    });
+    targetElement.appendChild(divPalettes);
+}
+
 window.onload = async (event) => {
     const root = document.getElementById('root');
 
-    let palette = '3939e2-886f84-defd0f-b43150-31b1d4';
+    let targetPalette = '3939e2-886f84-defd0f-b43150-31b1d4';
     let count = 10
-    getPalette(palette, count)
+
+    // target palette color
+    let targetPaletteDiv = document.createElement('div');
+    root.appendChild(targetPaletteDiv);
+    addColorElement(targetPalette, targetPaletteDiv);
+
+    root.appendChild(document.createElement('hr'));
+
+    getPalette(targetPalette, count)
         .then(response => response.json())
         .then(data => {
             const {
@@ -26,18 +48,31 @@ window.onload = async (event) => {
 
             images.forEach((v, idx) => {
                 const distance = distances[idx];
+                const {
+                    /** @type {string} file_name */
+                    file_name,
+                    /** @type {string} palette */
+                    palette
+                } = v;
 
-                /**
-                 * <svg width="20" height="20">
-                 <rect width="20" height="20" style="fill:#E9E612;stroke-width:3;stroke:rgb(0,0,0)" />
-                 </svg>
-                 */
-
-
-                let div = document.createElement('div');
-
+                // parent
+                let resultPaletteDiv = document.createElement('div');
+                root.appendChild(resultPaletteDiv);
+                // palette color
+                addColorElement(palette, resultPaletteDiv);
+                // distance
+                let textDiv = document.createElement('div');
+                textDiv.className = 'text';
+                textDiv.innerText = `distance: ${distance}`;
+                let distanceDiv = document.createElement('div');
+                distanceDiv.className = 'row';
+                distanceDiv.appendChild(textDiv);
+                resultPaletteDiv.appendChild(distanceDiv);
             });
+
 
         })
         .catch(error => console.error(error));
+
+
 };

@@ -1,4 +1,5 @@
 import json
+import mimetypes
 
 from flask import Flask, request, render_template
 
@@ -14,7 +15,9 @@ default_num_neighbors = 10
 
 
 @app.route('/')
-def hello():
+def index():
+    mimetypes.add_type('application/javascript', '.js')
+    mimetypes.add_type('text/css', '.css')
     return render_template('index.html')
 
 
