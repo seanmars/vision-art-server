@@ -5,9 +5,33 @@
     <title>Color</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <script type="application/javascript" src="{{ url_for('static', filename='lodash.min.js') }}"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='jscolor.min.js') }}"></script>
 </head>
 <body>
-<div id="root"></div>
+<div id="root">
+    <div class="color">
+        <div class="clr-row">
+            <button class="clr-box" data-jscolor="{valueElement:'#color1'}"></button>
+            <button class="clr-box" data-jscolor="{valueElement:'#color2'}"></button>
+            <button class="clr-box" data-jscolor="{valueElement:'#color3'}"></button>
+            <button class="clr-box" data-jscolor="{valueElement:'#color4'}"></button>
+            <button class="clr-box" data-jscolor="{valueElement:'#color5'}"></button>
+        </div>
+        <div class="clr-row">
+            <label for="color1"></label><input class="clr-input" id="color1" value="#3399FF80">
+            <label for="color2"></label><input class="clr-input" id="color2" value="#3399FF80">
+            <label for="color3"></label><input class="clr-input" id="color3" value="#3399FF80">
+            <label for="color4"></label><input class="clr-input" id="color4" value="#3399FF80">
+            <label for="color5"></label><input class="clr-input" id="color5" value="#3399FF80">
+        </div>
+        <div class="clr-row">
+            <button type="button" onclick="handlePaletteClick()">
+                get palettes
+            </button>
+        </div>
+    </div>
+</div>
 
 <script type="application/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
 </body>

@@ -1,3 +1,8 @@
+jscolor.presets.default = {
+    format: 'hex',
+    alphaChannel: false
+};
+
 const getPalette = async (palette, count) => {
     let searchParams = new URLSearchParams();
     searchParams.append('num', count);
@@ -19,18 +24,24 @@ const addColorElement = (palette, targetElement) => {
     targetElement.appendChild(divPalettes);
 }
 
-window.onload = async (event) => {
+const deleteAllResult = () => {
+    const root = document.getElementById('root');
+    const divs = document.getElementsByClassName('result');
+    [...divs].forEach(e => {
+        root.removeChild(e);
+    });
+};
+
+const handlePaletteClick = () => {
     const root = document.getElementById('root');
 
-    let targetPalette = '3939e2-886f84-defd0f-b43150-31b1d4';
-    let count = 10
+    const clrDivs = document.getElementsByClassName('clr-input');
+    const tmp = _.map([...clrDivs], (e) => _.trimStart(e.value, '#'));
 
-    // target palette color
-    let targetPaletteDiv = document.createElement('div');
-    root.appendChild(targetPaletteDiv);
-    addColorElement(targetPalette, targetPaletteDiv);
+    const targetPalette = _.join(tmp, '-');
+    let count = 10;
 
-    root.appendChild(document.createElement('hr'));
+    console.log(targetPalette);
 
     getPalette(targetPalette, count)
         .then(response => response.json())
@@ -41,6 +52,8 @@ window.onload = async (event) => {
                 /**  @type {Array<Object>} images */
                 images
             } = data;
+
+            deleteAllResult();
 
             if (!images) {
                 return;
@@ -57,6 +70,7 @@ window.onload = async (event) => {
 
                 // parent
                 let resultPaletteDiv = document.createElement('div');
+                resultPaletteDiv.className = 'result';
                 root.appendChild(resultPaletteDiv);
                 // palette color
                 addColorElement(palette, resultPaletteDiv);
@@ -69,10 +83,11 @@ window.onload = async (event) => {
                 distanceDiv.appendChild(textDiv);
                 resultPaletteDiv.appendChild(distanceDiv);
             });
-
-
         })
         .catch(error => console.error(error));
+};
 
-
+window.onload = async (event) => {
+    const root = document.getElementById('root');
+    root.appendChild(document.createElement('hr'));
 };
