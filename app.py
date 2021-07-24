@@ -1,12 +1,13 @@
-import json
 import mimetypes
 
 from flask import Flask, request, render_template
-
+from flask_cors import CORS
 from data_manager import DataManager
 from palette_embedding import PaletteEmbeddingModel, PaletteSearchIndex
 
 app = Flask(__name__)
+CORS(app)
+
 data_manager = DataManager()
 model = PaletteEmbeddingModel()
 data = data_manager.get_data()
