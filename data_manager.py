@@ -17,7 +17,7 @@ class DataManager:
     def get_data(self):
         return [v['palette'] for v in self._images]
 
-    def get_palettes(self, indices: list[int]):
+    def get_palettes(self, indices):
         if len(indices) == 0:
             return None
 
