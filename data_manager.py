@@ -22,7 +22,7 @@ class DataManager:
             return None
 
         tmp = np.array(self._images)
-        result = list[dict]()
+        result = []
         for o in list(tmp[indices]):
             result.append({
                 'file_name': o['name'],
