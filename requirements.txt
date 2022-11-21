@@ -50,7 +50,7 @@ SQLAlchemy==1.4.21
 tensorboard==2.5.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.0
-tensorflow==2.7.2
+tensorflow==2.9.3
 tensorflow-estimator==2.5.0
 termcolor==1.1.0
 tifffile==2021.7.2
@@ -110,7 +110,7 @@ SQLAlchemy==1.4.21
 tensorboard==2.5.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.0
-tensorflow==2.7.2
+tensorflow==2.9.3
 tensorflow-estimator==2.5.0
 termcolor==1.1.0
 tifffile==2021.7.2
